@@ -8,27 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const grid = document.getElementById('team-grid');
     if (!grid) return;
 
-    // Membres par défaut de l'équipe : créés sans photo, chacun pourra
-    // ensuite charger la sienne en cliquant sur sa carte.
-    const DEFAULT_MEMBERS = [
-        'Kanan Victoire Theresia Flavie',
-        'Nassa Kiswendsida',
-        'Compaoré Cherlynn Wendyam Célimène',
-        'Ouedraogo Oumarou',
-        'Kinda Fabiola Zeina Relwendé',
-        'Kiendrebeogo Jemima Wendkuni Astride',
-    ].map(name => ({ id: generateId(), name, role: '', bio: '', photo: null }));
-
-    const SEED_FLAG_KEY = 'team_seeded_v1';
-
     function getMembers() {
-        if (localStorage.getItem(SEED_FLAG_KEY) === null) {
-            // Jamais initialisé sur ce navigateur : on crée l'équipe par défaut,
-            // même si 'team_members' contient déjà un tableau vide.
-            localStorage.setItem(SEED_FLAG_KEY, 'true');
-            saveMembers(DEFAULT_MEMBERS);
-            return DEFAULT_MEMBERS;
-        }
         return JSON.parse(localStorage.getItem(TEAM_KEY)) || [];
     }
 

@@ -602,7 +602,7 @@ body, html {
     background-color: #000;
     display: flex;
     flex-direction: column;
-    overflow: hidden;
+    overflow-y: auto;
 }
 
 .media-box.hidden {
@@ -1387,7 +1387,8 @@ body, html {
     .mobile-only { display: block; }
     .sidebar {
         position: absolute;
-        left: -250px;
+        width: 210px;
+        left: -210px;
         top: 0;
         bottom: 0;
         z-index: 100;
@@ -1403,6 +1404,38 @@ body, html {
     .search-bar input { min-width: 0; }
     .topbar-actions { gap: 2px; }
     .history-panel { width: min(320px, calc(100vw - 32px)); right: 8px; }
+
+    /* La vue éditeur affichait la liste des notes ET l'éditeur côte à côte,
+       ce qui écrasait l'éditeur sur petit écran. On les empile désormais. */
+    #view-editor { flex-direction: column; overflow-y: auto; }
+    .notes-sidebar {
+        width: 100%;
+        max-height: 38vh;
+        border-right: none;
+        border-bottom: 1px solid var(--border-color);
+        overflow-y: auto;
+        flex-shrink: 0;
+    }
+    .editor-container { padding: 14px; overflow: visible; height: auto; }
+
+    /* Empêcher que la vidéo/l'aperçu soit coupé sans pouvoir défiler :
+       le corps de l'éditeur devient scrollable et chaque panneau reçoit
+       une hauteur généreuse plutôt qu'un 50/50 rigide. */
+    .editor-body {
+        height: auto;
+        max-height: none;
+        overflow-y: visible;
+        flex-direction: column;
+    }
+    .editor-body.split-mode #markdown-input,
+    .editor-body.split-mode .right-panel-container {
+        width: 100%;
+        height: auto;
+        min-height: 260px;
+    }
+    .right-panel-container { height: auto; min-height: 260px; }
+    .media-box { height: auto; max-height: 70vh; }
+    .media-box video { max-height: 55vh !important; }
 }
 
 /* ===== SCROLLBARS DISCRÈTES ===== */
@@ -1427,21 +1460,4 @@ body, html {
 
 *::-webkit-scrollbar-thumb:hover {
     background-color: var(--text-secondary);
-}
-
-/* Android responsive patch */
-@media screen and (max-width:768px){
-html,body{width:100%;overflow-x:hidden}
-*{box-sizing:border-box}
-.sidebar{position:fixed;top:0;left:-270px;width:270px;height:100vh;z-index:9999;transition:.3s}
-.sidebar.mobile-open{left:0}
-.main-content,.editor,.notes-sidebar,.notes-container,.editor-container{width:100%!important;min-width:0;margin:0;padding:0}
-.topbar{display:flex;flex-wrap:wrap;gap:8px}
-.search-bar{flex:1;min-width:0}
-.editor-body{display:flex;flex-direction:column!important;height:auto;overflow:hidden}
-.toolbar,.editor-toolbar,.topbar-actions{display:flex;flex-wrap:wrap;gap:6px}
-.toolbar button,.editor-toolbar button{width:42px;height:42px}
-img,video,canvas,svg{max-width:100%;height:auto}
-table{display:block;overflow-x:auto}
-.modal{width:95%;max-width:95%}
 }
