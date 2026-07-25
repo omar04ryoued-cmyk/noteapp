@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Tableau de bord administrateur NoteApp.">
+    <meta name="robots" content="noindex, nofollow">
+    <title>Administration — NoteApp</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/site.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <script src="js/auth.js"></script>
+    <script>
+        // Garde d'accès : seul un compte avec le rôle "admin" peut voir cette page.
+        requireAdmin();
+    </script>
+</head>
+<body class="site-page">
+
+    <nav class="site-nav">
+        <a href="index.html" class="site-nav-brand"><i class="fa-solid fa-user-shield"></i> NoteApp — Admin</a>
+        <div class="site-nav-links">
+            <a href="app.html"><i class="fa-solid fa-book-open"></i> Retour à mes notes</a>
+        </div>
+        <div class="site-nav-actions">
+            <button class="btn-outline" id="btn-admin-logout">Déconnexion</button>
+        </div>
+    </nav>
+
+    <div class="admin-layout">
+        <aside class="admin-sidebar">
+            <div class="admin-sidebar-title">Administration</div>
+            <button class="menu-btn active" data-tab="users"><i class="fa-solid fa-users"></i> Utilisateurs</button>
+            <button class="menu-btn" data-tab="team"><i class="fa-solid fa-id-card"></i> Membres équipe</button>
+            <button class="menu-btn" data-tab="messages"><i class="fa-solid fa-envelope"></i> Messages</button>
+        </aside>
+
+        <main class="admin-main">
+            <div id="tab-content-users">
+                <h1>Utilisateurs</h1>
+                <p class="admin-subtitle">Tous les comptes créés sur ce navigateur, avec leurs données.</p>
+
+                <div class="admin-stats-row" id="admin-stats-row"></div>
+
+                <div class="admin-toolbar">
+                    <div class="admin-search">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        <input type="text" id="admin-user-search" placeholder="Rechercher par nom ou email...">
+                    </div>
+                    <button class="btn-outline" id="btn-export-users-csv"><i class="fa-solid fa-file-csv"></i> Exporter en CSV</button>
+                </div>
+
+                <div class="admin-table-wrapper">
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>Utilisateur</th>
+                                <th>Email</th>
+                                <th>Rôle</th>
+                                <th>Inscrit le</th>
+                                <th>Données</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="admin-users-tbody"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div id="tab-content-team" class="hidden">
+                <h1>Membres de l'équipe (page publique)</h1>
+                <p class="admin-subtitle">Gérez ici les profils affichés sur la page "Équipe" du site.</p>
+                <div class="admin-table-wrapper">
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>Nom</th>
+                                <th>Rôle</th>
+                                <th>Bio</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="admin-team-tbody"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div id="tab-content-messages" class="hidden">
+                <h1>Messages de contact</h1>
+                <p class="admin-subtitle">Messages envoyés depuis le formulaire de la page "À propos".</p>
+                <div id="messages-list"></div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Panneau de détail d'un utilisateur -->
+    <div class="admin-drawer hidden" id="admin-drawer">
+        <div class="admin-drawer-panel">
+            <div class="admin-drawer-header">
+                <h3 id="drawer-user-name"></h3>
+                <button class="icon-btn" id="btn-close-drawer"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div id="drawer-body"></div>
+        </div>
+    </div>
+
+    <script src="js/admin.js"></script>
+</body>
+</html>

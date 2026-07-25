@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Découvrez en détail l'éditeur Markdown, les tâches, les flashcards à répétition espacée et les statistiques de NoteApp.">
+    <title>Fonctionnalités — NoteApp</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/site.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+<body class="site-page">
+
+    <nav class="site-nav">
+        <a href="index.html" class="site-nav-brand"><i class="fa-solid fa-book"></i> NoteApp</a>
+        <div class="site-nav-links">
+            <a href="index.html">Accueil</a>
+            <a href="fonctionnalites.html" class="active">Fonctionnalités</a>
+            <a href="equipe.html">Équipe</a>
+            <a href="a-propos.html">À propos</a>
+            <a href="faq.html">FAQ</a>
+        </div>
+        <div class="site-nav-actions" id="nav-actions"></div>
+    </nav>
+
+    <section class="site-section">
+        <div class="section-header">
+            <div class="section-eyebrow">Fonctionnalités</div>
+            <h2>Tout ce que NoteApp permet de faire</h2>
+            <p>Un tour concret, fonctionnalité par fonctionnalité, de ce que vous retrouvez une fois connecté.</p>
+        </div>
+
+        <div class="feature-detail">
+            <div class="feature-detail-text">
+                <div class="section-eyebrow">Éditeur</div>
+                <h3>Prise de notes en Markdown, avec aperçu en direct</h3>
+                <p>Rédigez en Markdown et voyez le rendu se mettre à jour instantanément : titres, listes, code coloré, tableaux.</p>
+                <ul>
+                    <li><i class="fa-solid fa-circle-check"></i> Gras, italique, souligné, couleur de texte</li>
+                    <li><i class="fa-solid fa-circle-check"></i> Coloration syntaxique automatique du code</li>
+                    <li><i class="fa-solid fa-circle-check"></i> Liens internes entre vos notes avec <code>[[Titre]]</code></li>
+                    <li><i class="fa-solid fa-circle-check"></i> Import de PDF et vidéos en pièce jointe</li>
+                </ul>
+            </div>
+            <div class="feature-detail-visual">
+                <div class="visual-frame">
+                    <h4 style="font-family: var(--font-display); margin-bottom: 10px;">Complexité algorithmique</h4>
+                    <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.7;">
+                        <strong>O(n)</strong> décrit une complexité <em>linéaire</em>.<br><br>
+                        Voir aussi <span style="color: var(--accent); border-bottom: 1px dashed var(--accent);">[[Structures de données]]</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="feature-detail reverse">
+            <div class="feature-detail-text">
+                <div class="section-eyebrow">Organisation</div>
+                <h3>Des tâches qui reflètent votre vraie charge de travail</h3>
+                <p>Priorité, échéance et sous-tâches : de quoi préparer un examen ou un projet de groupe sans rien perdre de vue.</p>
+                <ul>
+                    <li><i class="fa-solid fa-circle-check"></i> Priorités basse / moyenne / haute</li>
+                    <li><i class="fa-solid fa-circle-check"></i> Dates d'échéance avec alerte de retard</li>
+                    <li><i class="fa-solid fa-circle-check"></i> Sous-tâches dépliables</li>
+                </ul>
+            </div>
+            <div class="feature-detail-visual">
+                <div class="visual-frame">
+                    <div style="display:flex; align-items:center; gap:10px; padding:10px 0; border-bottom:1px solid var(--border-color);">
+                        <input type="checkbox" disabled> <span style="flex:1; font-size:0.9rem;">Rendre le TP réseau</span>
+                        <span class="priority-badge priority-haute">Haute</span>
+                    </div>
+                    <div style="display:flex; align-items:center; gap:10px; padding:10px 0;">
+                        <input type="checkbox" checked disabled> <span style="flex:1; font-size:0.9rem; text-decoration:line-through; color:var(--text-secondary);">Lire le chapitre 2</span>
+                        <span class="priority-badge priority-basse">Basse</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="feature-detail">
+            <div class="feature-detail-text">
+                <div class="section-eyebrow">Mémorisation</div>
+                <h3>Des flashcards qui savent quand vous réviser</h3>
+                <p>Un algorithme de répétition espacée (inspiré d'Anki) programme chaque carte au moment idéal pour la mémoire long terme.</p>
+                <ul>
+                    <li><i class="fa-solid fa-circle-check"></i> Intervalles de révision qui s'allongent automatiquement</li>
+                    <li><i class="fa-solid fa-circle-check"></i> Notation en 4 niveaux : Encore / Difficile / Bien / Facile</li>
+                    <li><i class="fa-solid fa-circle-check"></i> Suivi de progression : nouvelles, en cours, maîtrisées</li>
+                </ul>
+            </div>
+            <div class="feature-detail-visual">
+                <div class="visual-frame" style="text-align:center;">
+                    <p style="font-size:0.8rem; color:var(--text-secondary); margin-bottom:10px;">Carte 2 / 8</p>
+                    <div style="background:var(--bg-primary); border:1px solid var(--border-color); border-radius:8px; padding:24px; margin-bottom:14px;">
+                        Qu'est-ce qu'une pile (stack) ?
+                    </div>
+                    <div style="display:flex; gap:6px; justify-content:center; flex-wrap:wrap;">
+                        <span class="rate-btn rate-again" style="cursor:default;">Encore</span>
+                        <span class="rate-btn rate-good" style="cursor:default;">Bien</span>
+                        <span class="rate-btn rate-easy" style="cursor:default;">Facile</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="feature-detail reverse">
+            <div class="feature-detail-text">
+                <div class="section-eyebrow">Sécurité des données</div>
+                <h3>Rien ne se perd vraiment</h3>
+                <p>Une suppression n'est jamais définitive tout de suite, et chaque note garde la trace de ses versions précédentes.</p>
+                <ul>
+                    <li><i class="fa-solid fa-circle-check"></i> Corbeille conservée 30 jours</li>
+                    <li><i class="fa-solid fa-circle-check"></i> Historique de versions restaurable</li>
+                    <li><i class="fa-solid fa-circle-check"></i> Export/Import complet de vos données en JSON</li>
+                </ul>
+            </div>
+            <div class="feature-detail-visual">
+                <div class="visual-frame">
+                    <div style="display:flex; justify-content:space-between; align-items:center; padding:10px 12px; background:var(--bg-primary); border-radius:6px; margin-bottom:8px;">
+                        <span style="font-size:0.85rem;">Cours de réseaux — v.2</span>
+                        <span style="font-size:0.75rem; color:var(--text-secondary);">Il y a 2h</span>
+                    </div>
+                    <div style="display:flex; justify-content:space-between; align-items:center; padding:10px 12px; background:var(--bg-primary); border-radius:6px;">
+                        <span style="font-size:0.85rem;">Cours de réseaux — v.1</span>
+                        <span style="font-size:0.75rem; color:var(--text-secondary);">Hier</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="cta-band">
+        <h2>Envie de l'essayer sur vos propres cours ?</h2>
+        <p>La création de compte prend moins d'une minute.</p>
+        <a href="connexion.html?mode=register" class="btn-solid">Créer mon compte</a>
+    </div>
+
+    <footer class="site-footer">
+        <span>&copy; <span id="footer-year"></span> NoteApp — Projet étudiant, BIT Burkina Faso</span>
+        <div class="site-footer-links">
+            <a href="fonctionnalites.html">Fonctionnalités</a>
+            <a href="equipe.html">Équipe</a>
+            <a href="a-propos.html">À propos</a>
+            <a href="faq.html">FAQ</a>
+            <a href="connexion.html">Connexion</a>
+        </div>
+    </footer>
+
+    <script src="js/auth.js"></script>
+    <script src="js/nav.js"></script>
+    <script>document.getElementById('footer-year').textContent = new Date().getFullYear();</script>
+</body>
+</html>

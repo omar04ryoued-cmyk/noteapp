@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Réponses aux questions fréquentes sur NoteApp : sécurité des données, comptes, fonctionnalités.">
+    <title>FAQ — NoteApp</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/site.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+<body class="site-page">
+
+    <nav class="site-nav">
+        <a href="index.html" class="site-nav-brand"><i class="fa-solid fa-book"></i> NoteApp</a>
+        <div class="site-nav-links">
+            <a href="index.html">Accueil</a>
+            <a href="fonctionnalites.html">Fonctionnalités</a>
+            <a href="equipe.html">Équipe</a>
+            <a href="a-propos.html">À propos</a>
+            <a href="faq.html" class="active">FAQ</a>
+        </div>
+        <div class="site-nav-actions" id="nav-actions"></div>
+    </nav>
+
+    <section class="site-section" style="max-width: 800px;">
+        <div class="section-header">
+            <div class="section-eyebrow">FAQ</div>
+            <h2>Questions fréquentes</h2>
+        </div>
+
+        <div class="faq-list" id="faq-list"></div>
+    </section>
+
+    <div class="cta-band">
+        <h2>Une autre question ?</h2>
+        <p>Contactez-nous directement, on vous répond rapidement.</p>
+        <a href="a-propos.html" class="btn-solid">Nous contacter</a>
+    </div>
+
+    <footer class="site-footer">
+        <span>&copy; <span id="footer-year"></span> NoteApp — Projet étudiant, BIT Burkina Faso</span>
+        <div class="site-footer-links">
+            <a href="fonctionnalites.html">Fonctionnalités</a>
+            <a href="equipe.html">Équipe</a>
+            <a href="a-propos.html">À propos</a>
+            <a href="faq.html">FAQ</a>
+            <a href="connexion.html">Connexion</a>
+        </div>
+    </footer>
+
+    <script src="js/auth.js"></script>
+    <script src="js/nav.js"></script>
+    <script>
+        document.getElementById('footer-year').textContent = new Date().getFullYear();
+
+        const faqs = [
+            {
+                q: "Mes notes sont-elles partagées avec les autres utilisateurs ?",
+                a: "Non. Chaque compte a ses propres notes, tâches et flashcards, complètement séparées des autres comptes."
+            },
+            {
+                q: "Où sont stockées mes données ?",
+                a: "Actuellement, tout est stocké localement dans votre navigateur (aucun serveur externe). Cela veut dire que vos données restent sur cet appareil : pensez à utiliser la fonction d'export JSON (dans Statistiques) pour en garder une copie de sauvegarde."
+            },
+            {
+                q: "Qui peut devenir administrateur ?",
+                a: "Le tout premier compte créé sur un navigateur devient automatiquement administrateur. Un administrateur peut ensuite promouvoir d'autres comptes depuis l'espace admin."
+            },
+            {
+                q: "Puis-je récupérer une note supprimée par erreur ?",
+                a: "Oui : les notes supprimées vont dans la Corbeille et y restent 30 jours avant suppression définitive. Vous pouvez les restaurer à tout moment depuis cette section."
+            },
+            {
+                q: "Comment fonctionne la révision des flashcards ?",
+                a: "NoteApp utilise un algorithme de répétition espacée : plus vous réussissez une carte, plus l'intervalle avant la prochaine révision s'allonge. Une carte ratée revient dès le lendemain."
+            },
+            {
+                q: "L'application fonctionne-t-elle hors ligne ?",
+                a: "L'interface fonctionne sans connexion une fois chargée, mais certaines polices et bibliothèques (Markdown, graphiques) sont chargées depuis internet au premier accès."
+            }
+        ];
+
+        const list = document.getElementById('faq-list');
+        faqs.forEach((item, i) => {
+            const el = document.createElement('div');
+            el.className = 'faq-item';
+            el.innerHTML = `
+                <button class="faq-question" type="button">
+                    <span>${item.q}</span>
+                    <i class="fa-solid fa-chevron-down"></i>
+                </button>
+                <div class="faq-answer"><p>${item.a}</p></div>
+            `;
+            el.querySelector('.faq-question').addEventListener('click', () => {
+                el.classList.toggle('open');
+            });
+            list.appendChild(el);
+        });
+    </script>
+</body>
+</html>

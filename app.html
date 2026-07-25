@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Votre espace personnel NoteApp : notes Markdown, tâches, flashcards, Pomodoro et statistiques.">
+    <meta name="robots" content="noindex, nofollow">
+    <title>NoteApp - Éditeur Markdown & Média</title>
+    <link rel="stylesheet" href="css/style.css">
+    <!-- Typographie : Fraunces (titres), JetBrains Mono (code/éditeur) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <!-- FontAwesome pour les icônes -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Coloration syntaxique du code dans les notes -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+    <!-- Moteur Markdown -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/4.3.0/marked.min.js"></script>
+    <!-- Coloration syntaxique -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <!-- Nettoyage/sécurisation du HTML généré (anti-XSS) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.0.6/purify.min.js"></script>
+    <!-- Graphiques de statistiques -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+    <link rel="stylesheet" href="css/site.css">
+    <script src="js/auth.js"></script>
+    <script>
+        // Garde d'accès : redirige immédiatement vers la connexion si personne
+        // n'est connecté sur ce navigateur.
+        if (!getCurrentUser()) {
+            window.location.href = 'connexion.html';
+        }
+    </script>
+</head>
+<body>
+    <div class="app-container" id="app-container">
+        <!-- BARRE LATÉRALE GAUCHE -->
+        <aside class="sidebar" id="sidebar-left">
+            <div class="sidebar-header">
+                <a href="index.html" class="site-nav-brand" style="font-size: 1.2rem;"><i class="fa-solid fa-book"></i> Mes Notes</a>
+                <button class="icon-btn mobile-only" id="btn-close-sidebar"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+
+            <nav class="sidebar-nav">
+                <button class="menu-btn active" data-view="editor"><i class="fa-solid fa-pen-to-square"></i> Éditeur</button>
+                <button class="menu-btn" data-view="tasks"><i class="fa-solid fa-check-double"></i> Tâches</button>
+                <button class="menu-btn" data-view="flashcards"><i class="fa-solid fa-layer-group"></i> Flashcards</button>
+                <button class="menu-btn" data-view="pomodoro"><i class="fa-solid fa-clock"></i> Pomodoro</button>
+                <button class="menu-btn" data-view="stats"><i class="fa-solid fa-chart-pie"></i> Statistiques</button>
+                <button class="menu-btn" data-view="trash"><i class="fa-solid fa-trash-can"></i> Corbeille</button>
+            </nav>
+
+            <div class="folders-section">
+                <div class="section-title">
+                    <span>Dossiers</span>
+                    <button class="icon-btn" id="btn-add-folder"><i class="fa-solid fa-plus"></i></button>
+                </div>
+                <ul class="folders-list" id="folders-list">
+                    <li class="active" data-folder="all"><i class="fa-solid fa-folder"></i> Tous les dossiers</li>
+                    <li data-folder="general"><i class="fa-solid fa-folder"></i> Général</li>
+                    <li data-folder="work"><i class="fa-solid fa-folder"></i> Travail</li>
+                    <li data-folder="personal"><i class="fa-solid fa-folder"></i> Personnel</li>
+                </ul>
+            </div>
+
+            <!-- Widget Audio Révisé -->
+            <div class="audio-widget">
+                <div class="audio-header">Musique & Ambiance</div>
+                
+                <label for="input-import-audio" class="btn-import-audio-label">
+                    <i class="fa-solid fa-file-audio"></i> Importer une Musique
+                </label>
+                <input type="file" id="input-import-audio" accept="audio/*" style="display: none;">
+
+                <div class="audio-controls">
+                    <button class="small-btn" id="btn-play-audio" type="button"><i class="fa-solid fa-play" id="audio-icon"></i></button>
+                    <span class="audio-filename" id="audio-status">Aucun fichier</span>
+                </div>
+                <audio id="bg-audio-player" style="display: none;"></audio>
+            </div>
+        </aside>
+
+        <!-- ZONE PRINCIPALE -->
+        <main class="main-content">
+            <!-- BARRE SUPÉRIEURE -->
+            <header class="topbar">
+                <button class="icon-btn mobile-only" id="btn-toggle-sidebar"><i class="fa-solid fa-bars"></i></button>
+                <div class="search-bar">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <input type="text" id="search-input" placeholder="Rechercher une note...">
+                </div>
+                <div class="topbar-actions">
+                    <button class="icon-btn" id="btn-toggle-zen" title="Mode Zen"><i class="fa-solid fa-expand"></i></button>
+                    <button class="icon-btn" id="btn-toggle-theme" title="Changer le thème"><i class="fa-solid fa-moon"></i></button>
+                    <div id="topbar-user-menu"></div>
+                </div>
+            </header>
+
+            <!-- VUE ÉDITEUR DE NOTES -->
+            <div class="main-view" id="view-editor">
+                <!-- SIDEBAR DES NOTES -->
+                <div class="notes-sidebar">
+                    <button class="primary-btn" id="btn-new-note"><i class="fa-solid fa-plus"></i> Nouvelle Note</button>
+                    <ul class="notes-list" id="notes-list"></ul>
+                </div>
+
+                <!-- CONTENEUR DE L'ÉDITEUR -->
+                <div class="editor-container">
+                    <div class="editor-header">
+                        <div class="title-row">
+                            <input type="text" id="note-title" class="title-input" placeholder="Titre de la note...">
+                            <button class="icon-btn" id="btn-history" title="Historique des versions"><i class="fa-solid fa-clock-rotate-left"></i></button>
+                        </div>
+                        <div class="note-metadata">
+                            <select id="note-folder-select">
+                                <option value="general">Général</option>
+                                <option value="work">Travail</option>
+                                <option value="personal">Personnel</option>
+                            </select>
+                            <input type="text" id="note-tags" placeholder="Tags (séparés par des virgules)">
+                        </div>
+                    </div>
+
+                    <div id="history-panel" class="history-panel hidden">
+                        <div class="history-panel-header">
+                            <span><i class="fa-solid fa-clock-rotate-left"></i> Historique des versions</span>
+                            <button class="icon-btn" id="btn-close-history"><i class="fa-solid fa-xmark"></i></button>
+                        </div>
+                        <ul id="history-list"></ul>
+                    </div>
+
+                    <!-- BARRE D'OUTILS DE MISE EN FORME & MEDIA -->
+                    <div class="editor-toolbar-row">
+                        <div class="markdown-toolbar">
+                            <button type="button" id="btn-bold" title="Gras"><b>B</b></button>
+                            <button type="button" id="btn-italic" title="Italique"><i>I</i></button>
+                            <button type="button" id="btn-underline" title="Souligner"><u>U</u></button>
+                            
+                            <div class="color-picker-wrapper" title="Couleur du texte">
+                                <i class="fa-solid fa-palette" style="font-size: 0.8rem;"></i>
+                                <input type="color" id="color-picker" value="#4c6ef5">
+                            </div>
+
+                            <button type="button" id="btn-h1" title="Titre 1">H1</button>
+                            <button type="button" id="btn-h2" title="Titre 2">H2</button>
+                            <button type="button" id="btn-list" title="Liste"><i class="fa-solid fa-list-ul"></i></button>
+                            <button type="button" id="btn-link" title="Lien"><i class="fa-solid fa-link"></i></button>
+
+                            <span class="toolbar-separator">|</span>
+
+                            <label for="input-import-pdf" class="btn-import-label" title="Importer un PDF">
+                                <i class="fa-solid fa-file-pdf"></i> PDF
+                            </label>
+                            <input type="file" id="input-import-pdf" accept="application/pdf" style="display: none;">
+
+                            <label for="input-import-video" class="btn-import-label" title="Importer une Vidéo">
+                                <i class="fa-solid fa-file-video"></i> Vidéo
+                            </label>
+                            <input type="file" id="input-import-video" accept="video/*" style="display: none;">
+                        </div>
+
+                        <!-- MODES DE VUE -->
+                        <div class="tab-controls">
+                            <button class="tab-btn" data-mode="edit-only">Éditeur</button>
+                            <button class="tab-btn active" data-mode="split-mode">Split</button>
+                            <button class="tab-btn" data-mode="preview-only">Aperçu / Média</button>
+                        </div>
+                    </div>
+
+                    <!-- CORPS DE L'ÉDITEUR -->
+                    <div class="editor-body split-mode" id="editor-body">
+                        <textarea id="markdown-input" placeholder="Prenez vos notes ici pendant la lecture..."></textarea>
+                        
+                        <div id="media-viewer-container" class="right-panel-container">
+                            <div id="markdown-preview" class="markdown-body"></div>
+                            <div id="media-player-box" class="media-box hidden"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- VUES SECONDAIRES -->
+            <div class="main-view hidden" id="view-tasks">
+                <div class="tasks-container">
+                    <h2>Gestionnaire de Tâches</h2>
+                    <div class="add-task-row">
+                        <input type="text" id="new-task-input" placeholder="Nouvelle tâche...">
+                        <select id="new-task-priority" title="Priorité">
+                            <option value="basse">Basse</option>
+                            <option value="moyenne" selected>Moyenne</option>
+                            <option value="haute">Haute</option>
+                        </select>
+                        <input type="date" id="new-task-due" title="Échéance">
+                        <button class="primary-btn" id="btn-add-task">Ajouter</button>
+                    </div>
+                    <ul id="tasks-list"></ul>
+                </div>
+            </div>
+
+            <div class="main-view hidden" id="view-flashcards">
+                <div class="flashcards-container">
+                    <h2>Flashcards</h2>
+                    <div class="add-fc-form">
+                        <input type="text" id="fc-front" placeholder="Question / Recto">
+                        <input type="text" id="fc-back" placeholder="Réponse / Verso">
+                        <button class="primary-btn" id="btn-add-fc">Créer</button>
+                    </div>
+                    <div class="fc-actions">
+                        <button class="primary-btn" id="btn-start-review">
+                            <i class="fa-solid fa-graduation-cap"></i> Réviser (<span id="fc-due-count">0</span> à revoir aujourd'hui)
+                        </button>
+                    </div>
+                    <div class="flashcards-grid" id="flashcards-grid"></div>
+                </div>
+            </div>
+
+            <!-- VUE POMODORO AMÉLIORÉE -->
+            <div class="main-view hidden" id="view-pomodoro">
+                <div class="pomodoro-container">
+                    <h2>Minuteur Pomodoro</h2>
+                    
+                    <div class="pomo-settings">
+                        <label for="pomo-minutes-input">Durée (minutes) : </label>
+                        <input type="number" id="pomo-minutes-input" value="25" min="1" max="180">
+                    </div>
+
+                    <div class="timer-display" id="timer-display">25:00</div>
+                    
+                    <div class="pomo-controls">
+                        <button class="primary-btn" id="btn-pomo-start">Démarrer</button>
+                        <button class="small-btn" id="btn-pomo-reset">Réinitialiser</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="main-view hidden" id="view-stats">
+                <div class="stats-container">
+                    <h2>Statistiques & Sauvegarde</h2>
+                    <div class="stats-grid">
+                        <div class="stat-card">Total Notes <span id="stat-notes">0</span></div>
+                        <div class="stat-card">Total Tâches <span id="stat-tasks">0</span></div>
+                        <div class="stat-card">Flashcards <span id="stat-fc">0</span></div>
+                        <div class="stat-card">Corbeille <span id="stat-trash">0</span></div>
+                    </div>
+                    <hr class="divider">
+                    <div class="charts-grid">
+                        <div class="chart-box"><canvas id="chart-folders"></canvas></div>
+                        <div class="chart-box"><canvas id="chart-tasks"></canvas></div>
+                        <div class="chart-box"><canvas id="chart-flashcards"></canvas></div>
+                    </div>
+                    <hr class="divider">
+                    <div class="backup-actions">
+                        <button class="primary-btn" id="btn-export">Exporter JSON</button>
+                        <button class="small-btn" id="btn-import-trigger">Importer JSON</button>
+                        <input type="file" id="import-file" style="display:none;" accept=".json">
+                    </div>
+                </div>
+            </div>
+            <div class="main-view hidden" id="view-trash">
+                <div class="trash-container">
+                    <div class="trash-header-row">
+                        <h2>Corbeille</h2>
+                        <button class="small-btn" id="btn-empty-trash">Vider la corbeille</button>
+                    </div>
+                    <p class="trash-info">Les notes supprimées sont conservées 30 jours avant suppression définitive.</p>
+                    <ul id="trash-list"></ul>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <div id="review-overlay" class="review-overlay hidden">
+        <div class="review-box">
+            <div class="review-progress" id="review-progress"></div>
+            <div class="review-card" id="review-card-face"></div>
+            <div class="review-actions" id="review-actions-reveal">
+                <button class="primary-btn" id="btn-reveal-answer">Afficher la réponse</button>
+            </div>
+            <div class="review-actions hidden" id="review-actions-rate">
+                <button class="rate-btn rate-again" data-quality="0">Encore</button>
+                <button class="rate-btn rate-hard" data-quality="3">Difficile</button>
+                <button class="rate-btn rate-good" data-quality="4">Bien</button>
+                <button class="rate-btn rate-easy" data-quality="5">Facile</button>
+            </div>
+            <button class="icon-btn" id="btn-close-review" title="Fermer la révision"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+    </div>
+
+    <script>
+        // Construit le menu utilisateur (avatar, identité, lien admin, déconnexion)
+        (function setupUserMenu() {
+            const user = getCurrentUser();
+            if (!user) return;
+
+            const container = document.getElementById('topbar-user-menu');
+            const adminLink = user.role === 'admin'
+                ? `<a href="admin.html"><i class="fa-solid fa-user-shield"></i> Espace admin</a>`
+                : '';
+
+            container.innerHTML = `
+                <div class="user-dropdown">
+                    <button class="user-dropdown-trigger" id="user-dropdown-trigger">
+                        <div class="user-avatar">${getInitials(user.name)}</div>
+                    </button>
+                    <div class="user-dropdown-panel hidden" id="user-dropdown-panel">
+                        <div class="user-dropdown-identity">
+                            <div class="name">${user.name}</div>
+                            <div class="email">${user.email}</div>
+                        </div>
+                        ${adminLink}
+                        <button class="logout-item" id="btn-logout"><i class="fa-solid fa-right-from-bracket"></i> Se déconnecter</button>
+                    </div>
+                </div>
+            `;
+
+            const trigger = document.getElementById('user-dropdown-trigger');
+            const panel = document.getElementById('user-dropdown-panel');
+
+            trigger.addEventListener('click', (e) => {
+                e.stopPropagation();
+                panel.classList.toggle('hidden');
+            });
+
+            document.addEventListener('click', () => panel.classList.add('hidden'));
+
+            document.getElementById('btn-logout').addEventListener('click', () => {
+                logoutUser();
+                window.location.href = 'index.html';
+            });
+        })();
+    </script>
+
+    <script src="js/script.js"></script>
+</body>
+</html>

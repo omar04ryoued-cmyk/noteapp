@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="NoteApp réunit vos notes en Markdown, vos tâches, des flashcards à répétition espacée et un minuteur Pomodoro dans un seul espace de travail étudiant.">
+    <title>NoteApp — Notes, tâches et révisions au même endroit</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/site.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+<body class="site-page">
+
+    <nav class="site-nav">
+        <a href="index.html" class="site-nav-brand"><i class="fa-solid fa-book"></i> NoteApp</a>
+        <div class="site-nav-links">
+            <a href="index.html" class="active">Accueil</a>
+            <a href="fonctionnalites.html">Fonctionnalités</a>
+            <a href="equipe.html">Équipe</a>
+            <a href="a-propos.html">À propos</a>
+            <a href="faq.html">FAQ</a>
+        </div>
+        <div class="site-nav-actions" id="nav-actions"></div>
+    </nav>
+
+    <section class="hero">
+        <div class="hero-content">
+            <span class="hero-eyebrow"><i class="fa-solid fa-sparkles"></i> Fait pour étudier sérieusement</span>
+            <h1>Vos notes, vos tâches et vos révisions, <em>enfin réunies</em>.</h1>
+            <p class="lead">
+                NoteApp rassemble la prise de notes en Markdown, la gestion de tâches, des flashcards
+                à répétition espacée et un minuteur Pomodoro — pour arrêter de jongler entre dix applications.
+            </p>
+            <div class="hero-actions">
+                <a href="connexion.html?mode=register" class="btn-solid">Créer un compte gratuit</a>
+                <a href="fonctionnalites.html" class="btn-outline">Découvrir les fonctionnalités</a>
+            </div>
+        </div>
+        <div class="hero-visual">
+            <div class="hero-card-stack">
+                <div class="hero-mock-card">
+                    <h4><i class="fa-solid fa-note-sticky"></i> Cours d'algorithmique</h4>
+                    <p># Complexité<br>La notation **O(n)** décrit...</p>
+                </div>
+                <div class="hero-mock-card">
+                    <h4><i class="fa-solid fa-layer-group"></i> Flashcard due</h4>
+                    <p>Qu'est-ce qu'une pile (stack) ?</p>
+                    <div class="mock-check"><i class="fa-solid fa-clock"></i> À revoir aujourd'hui</div>
+                </div>
+                <div class="hero-mock-card">
+                    <h4><i class="fa-solid fa-check-double"></i> Tâches du jour</h4>
+                    <div class="mock-check"><i class="fa-solid fa-square-check"></i> Réviser le chapitre 3</div>
+                    <div class="mock-check"><i class="fa-regular fa-square"></i> Rendre le TP réseau</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="site-section">
+        <div class="section-header">
+            <div class="section-eyebrow">Ce que vous obtenez</div>
+            <h2>Un seul espace de travail pour toute votre année</h2>
+            <p>Chaque outil a été pensé pour le travail académique : notes de cours, organisation, mémorisation active.</p>
+        </div>
+        <div class="feature-grid">
+            <div class="feature-card">
+                <div class="feature-icon"><i class="fa-solid fa-pen-to-square"></i></div>
+                <h3>Notes en Markdown</h3>
+                <p>Mise en forme riche, coloration syntaxique du code, et liens entre vos notes façon wiki personnel.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon"><i class="fa-solid fa-check-double"></i></div>
+                <h3>Tâches structurées</h3>
+                <p>Priorités, échéances et sous-tâches pour ne plus rien oublier avant un rendu ou un examen.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon"><i class="fa-solid fa-layer-group"></i></div>
+                <h3>Flashcards intelligentes</h3>
+                <p>Un algorithme de répétition espacée programme vos révisions au moment optimal, comme Anki.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon"><i class="fa-solid fa-clock"></i></div>
+                <h3>Minuteur Pomodoro</h3>
+                <p>Des sessions de concentration chronométrées, directement à côté de vos notes de cours.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon"><i class="fa-solid fa-chart-pie"></i></div>
+                <h3>Statistiques visuelles</h3>
+                <p>Visualisez votre charge de travail et votre progression en un coup d'œil.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon"><i class="fa-solid fa-trash-can"></i></div>
+                <h3>Corbeille & historique</h3>
+                <p>Aucune perte : vos suppressions sont réversibles et chaque note garde ses versions précédentes.</p>
+            </div>
+        </div>
+    </section>
+
+    <div class="cta-band">
+        <h2>Prêt à organiser votre travail ?</h2>
+        <p>Créez votre compte en quelques secondes et retrouvez vos notes à chaque connexion.</p>
+        <a href="connexion.html?mode=register" class="btn-solid">Commencer gratuitement</a>
+    </div>
+
+    <footer class="site-footer">
+        <span>&copy; <span id="footer-year"></span> NoteApp — Projet étudiant, BIT Burkina Faso</span>
+        <div class="site-footer-links">
+            <a href="fonctionnalites.html">Fonctionnalités</a>
+            <a href="equipe.html">Équipe</a>
+            <a href="a-propos.html">À propos</a>
+            <a href="faq.html">FAQ</a>
+            <a href="connexion.html">Connexion</a>
+        </div>
+    </footer>
+
+    <script src="js/auth.js"></script>
+    <script src="js/nav.js"></script>
+    <script>document.getElementById('footer-year').textContent = new Date().getFullYear();</script>
+</body>
+</html>

@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Découvrez l'équipe et la mission derrière NoteApp, et contactez-nous directement.">
+    <title>À propos & Contact — NoteApp</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/site.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+<body class="site-page">
+
+    <nav class="site-nav">
+        <a href="index.html" class="site-nav-brand"><i class="fa-solid fa-book"></i> NoteApp</a>
+        <div class="site-nav-links">
+            <a href="index.html">Accueil</a>
+            <a href="fonctionnalites.html">Fonctionnalités</a>
+            <a href="equipe.html">Équipe</a>
+            <a href="a-propos.html" class="active">À propos</a>
+            <a href="faq.html">FAQ</a>
+        </div>
+        <div class="site-nav-actions" id="nav-actions"></div>
+    </nav>
+
+    <section class="site-section">
+        <div class="section-header">
+            <div class="section-eyebrow">À propos</div>
+            <h2>Pourquoi NoteApp existe</h2>
+            <p>
+                NoteApp est né d'un besoin très concret : arrêter de jongler entre une appli de notes,
+                un gestionnaire de tâches, des flashcards et un minuteur Pomodoro séparés. C'est un projet
+                étudiant mené au BIT Burkina Faso, pensé pour un usage académique réel.
+            </p>
+        </div>
+
+        <div class="feature-grid" style="margin-bottom: 60px;">
+            <div class="feature-card">
+                <div class="feature-icon"><i class="fa-solid fa-graduation-cap"></i></div>
+                <h3>Pensé pour étudier</h3>
+                <p>Chaque fonctionnalité répond à un vrai besoin de cours, de révision ou d'organisation académique.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon"><i class="fa-solid fa-code"></i></div>
+                <h3>Construit pas à pas</h3>
+                <p>Le projet évolue en continu : nouvelles fonctionnalités, refonte visuelle, amélioration de la sécurité.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon"><i class="fa-solid fa-heart"></i></div>
+                <h3>Fait avec sérieux</h3>
+                <p>Chaque ajout est pensé, testé et documenté — la qualité prime sur la quantité de fonctionnalités.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="site-section" style="padding-top: 0;">
+        <div class="section-header">
+            <div class="section-eyebrow">Contact</div>
+            <h2>Une question, une suggestion ?</h2>
+            <p>Écrivez-nous — votre message sera transmis à l'équipe.</p>
+        </div>
+
+        <div class="auth-box" style="max-width: 520px; margin: 0 auto;">
+            <div class="auth-error" id="contact-error"></div>
+            <div class="auth-error" id="contact-success" style="background-color: rgba(76,122,94,0.12); color: var(--success);"></div>
+
+            <form class="auth-form" id="form-contact">
+                <div class="auth-field">
+                    <label for="contact-name">Nom</label>
+                    <input type="text" id="contact-name" required>
+                </div>
+                <div class="auth-field">
+                    <label for="contact-email">Email</label>
+                    <input type="email" id="contact-email" required>
+                </div>
+                <div class="auth-field">
+                    <label for="contact-message">Message</label>
+                    <textarea id="contact-message" required rows="4" style="padding:10px 12px; border-radius:6px; border:1px solid var(--border-color); background-color:var(--bg-primary); color:var(--text-primary); font-family:var(--font-family); resize:vertical;"></textarea>
+                </div>
+                <button type="submit" class="primary-btn auth-submit">Envoyer le message</button>
+            </form>
+        </div>
+    </section>
+
+    <footer class="site-footer">
+        <span>&copy; <span id="footer-year"></span> NoteApp — Projet étudiant, BIT Burkina Faso</span>
+        <div class="site-footer-links">
+            <a href="fonctionnalites.html">Fonctionnalités</a>
+            <a href="equipe.html">Équipe</a>
+            <a href="a-propos.html">À propos</a>
+            <a href="faq.html">FAQ</a>
+            <a href="connexion.html">Connexion</a>
+        </div>
+    </footer>
+
+    <script src="js/auth.js"></script>
+    <script src="js/nav.js"></script>
+    <script>
+        document.getElementById('footer-year').textContent = new Date().getFullYear();
+
+        const CONTACT_KEY = 'site_contact_messages';
+        const form = document.getElementById('form-contact');
+        const errorBox = document.getElementById('contact-error');
+        const successBox = document.getElementById('contact-success');
+
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            errorBox.classList.remove('visible');
+            successBox.classList.remove('visible');
+
+            const message = {
+                id: crypto.randomUUID(),
+                name: document.getElementById('contact-name').value.trim(),
+                email: document.getElementById('contact-email').value.trim(),
+                message: document.getElementById('contact-message').value.trim(),
+                createdAt: new Date().toISOString()
+            };
+
+            const messages = JSON.parse(localStorage.getItem(CONTACT_KEY)) || [];
+            messages.unshift(message);
+            localStorage.setItem(CONTACT_KEY, JSON.stringify(messages));
+
+            successBox.textContent = "Message envoyé ! Nous vous répondrons rapidement.";
+            successBox.classList.add('visible');
+            form.reset();
+        });
+    </script>
+</body>
+</html>

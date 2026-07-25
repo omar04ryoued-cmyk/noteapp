@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Rencontrez l'équipe derrière NoteApp, un projet étudiant du BIT Burkina Faso.">
+    <title>Équipe — NoteApp</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/site.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+<body class="site-page">
+
+    <nav class="site-nav">
+        <a href="index.html" class="site-nav-brand"><i class="fa-solid fa-book"></i> NoteApp</a>
+        <div class="site-nav-links">
+            <a href="index.html">Accueil</a>
+            <a href="fonctionnalites.html">Fonctionnalités</a>
+            <a href="equipe.html" class="active">Équipe</a>
+            <a href="a-propos.html">À propos</a>
+            <a href="faq.html">FAQ</a>
+        </div>
+        <div class="site-nav-actions" id="nav-actions"></div>
+    </nav>
+
+    <section class="site-section">
+        <div class="section-header">
+            <div class="section-eyebrow">L'équipe</div>
+            <h2>Les personnes derrière NoteApp</h2>
+            <p>Un projet mené par des étudiants du BIT Burkina Faso.</p>
+        </div>
+
+        <div class="team-note">
+            <i class="fa-solid fa-circle-info"></i>
+            Les photos et profils ajoutés ici sont enregistrés dans ce navigateur. Pour qu'ils apparaissent
+            pour tout le monde en ligne, il faudra héberger le site avec un vrai stockage partagé.
+        </div>
+
+        <div class="team-grid" id="team-grid"></div>
+    </section>
+
+    <footer class="site-footer">
+        <span>&copy; <span id="footer-year"></span> NoteApp — Projet étudiant, BIT Burkina Faso</span>
+        <div class="site-footer-links">
+            <a href="fonctionnalites.html">Fonctionnalités</a>
+            <a href="equipe.html">Équipe</a>
+            <a href="a-propos.html">À propos</a>
+            <a href="faq.html">FAQ</a>
+            <a href="connexion.html">Connexion</a>
+        </div>
+    </footer>
+
+    <script src="js/auth.js"></script>
+    <script src="js/nav.js"></script>
+    <script src="js/team.js"></script>
+    <script>document.getElementById('footer-year').textContent = new Date().getFullYear();</script>
+</body>
+</html>
