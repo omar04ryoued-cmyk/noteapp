@@ -1428,3 +1428,20 @@ body, html {
 *::-webkit-scrollbar-thumb:hover {
     background-color: var(--text-secondary);
 }
+
+/* Android responsive patch */
+@media screen and (max-width:768px){
+html,body{width:100%;overflow-x:hidden}
+*{box-sizing:border-box}
+.sidebar{position:fixed;top:0;left:-270px;width:270px;height:100vh;z-index:9999;transition:.3s}
+.sidebar.mobile-open{left:0}
+.main-content,.editor,.notes-sidebar,.notes-container,.editor-container{width:100%!important;min-width:0;margin:0;padding:0}
+.topbar{display:flex;flex-wrap:wrap;gap:8px}
+.search-bar{flex:1;min-width:0}
+.editor-body{display:flex;flex-direction:column!important;height:auto;overflow:hidden}
+.toolbar,.editor-toolbar,.topbar-actions{display:flex;flex-wrap:wrap;gap:6px}
+.toolbar button,.editor-toolbar button{width:42px;height:42px}
+img,video,canvas,svg{max-width:100%;height:auto}
+table{display:block;overflow-x:auto}
+.modal{width:95%;max-width:95%}
+}
