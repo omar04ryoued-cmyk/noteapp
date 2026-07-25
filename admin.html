@@ -6,13 +6,13 @@
     <meta name="description" content="Tableau de bord administrateur NoteApp.">
     <meta name="robots" content="noindex, nofollow">
     <title>Administration — NoteApp</title>
-    <link rel="stylesheet" href="css/style.css?v=1785002001">
-    <link rel="stylesheet" href="css/site.css?v=1785002001">
+    <link rel="stylesheet" href="css/style.css?v=1785003892">
+    <link rel="stylesheet" href="css/site.css?v=1785003892">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-    <script src="js/auth.js?v=1785002001"></script>
+    <script src="js/auth.js?v=1785003892"></script>
     <script>
         // Garde d'accès : seul un compte avec le rôle "admin" peut voir cette page.
         requireAdmin();
@@ -89,8 +89,13 @@
             </div>
 
             <div id="tab-content-messages" class="hidden">
-                <h1>Messages de contact</h1>
-                <p class="admin-subtitle">Messages envoyés depuis le formulaire de la page "À propos".</p>
+                <div class="admin-header-row">
+                    <div>
+                        <h1>Messages de contact</h1>
+                        <p class="admin-subtitle">Messages envoyés depuis le formulaire de la page "À propos".</p>
+                    </div>
+                    <button class="small-btn" id="btn-clear-messages"><i class="fa-solid fa-trash-can"></i> Vider tous les messages</button>
+                </div>
                 <div id="messages-list"></div>
             </div>
         </main>
@@ -107,6 +112,6 @@
         </div>
     </div>
 
-    <script src="js/admin.js?v=1785002001"></script>
+    <script src="js/admin.js?v=1785003892"></script>
 </body>
 </html>

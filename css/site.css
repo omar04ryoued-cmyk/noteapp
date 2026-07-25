@@ -876,6 +876,17 @@ body.site-page {
     margin-bottom: 26px;
 }
 
+.admin-header-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin-bottom: 26px;
+}
+
+.admin-header-row .admin-subtitle { margin-bottom: 0; }
+
 .admin-stats-row {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));

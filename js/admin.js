@@ -269,9 +269,18 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     /* --- Messages de contact --- */
+    const MESSAGES_KEY = 'site_contact_messages';
+
+    function getMessages() {
+        return JSON.parse(localStorage.getItem(MESSAGES_KEY)) || [];
+    }
+
+    function saveMessages(messages) {
+        localStorage.setItem(MESSAGES_KEY, JSON.stringify(messages));
+    }
+
     function renderMessages() {
-        const MESSAGES_KEY = 'site_contact_messages';
-        const messages = JSON.parse(localStorage.getItem(MESSAGES_KEY)) || [];
+        const messages = getMessages();
         const container = document.getElementById('messages-list');
 
         if (messages.length === 0) {
@@ -280,16 +289,35 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         container.innerHTML = messages.map(m => `
-            <div class="admin-drawer-item" style="margin-bottom: 10px; padding: 14px 16px;">
-                <div style="display:flex; justify-content:space-between; margin-bottom:6px;">
+            <div class="admin-drawer-item" style="margin-bottom: 10px; padding: 14px 16px;" data-message-id="${m.id}">
+                <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:6px; gap:10px;">
                     <strong>${escapeHtmlAdmin(m.name)}</strong>
-                    <span style="color:var(--text-secondary); font-size:0.78rem;">${new Date(m.createdAt).toLocaleString('fr-FR')}</span>
+                    <div style="display:flex; align-items:center; gap:10px; flex-shrink:0;">
+                        <span style="color:var(--text-secondary); font-size:0.78rem;">${new Date(m.createdAt).toLocaleString('fr-FR')}</span>
+                        <button class="icon-btn btn-delete-message" data-id="${m.id}" title="Supprimer ce message"><i class="fa-solid fa-trash-can"></i></button>
+                    </div>
                 </div>
                 <div style="color:var(--text-secondary); font-size:0.82rem; margin-bottom:8px;">${escapeHtmlAdmin(m.email)}</div>
                 <div style="font-size:0.9rem;">${escapeHtmlAdmin(m.message)}</div>
             </div>
         `).join('');
     }
+
+    document.getElementById('messages-list')?.addEventListener('click', (e) => {
+        const btn = e.target.closest('.btn-delete-message');
+        if (!btn) return;
+        if (!confirm('Supprimer ce message définitivement ?')) return;
+        const id = btn.dataset.id;
+        saveMessages(getMessages().filter(m => m.id !== id));
+        renderMessages();
+    });
+
+    document.getElementById('btn-clear-messages')?.addEventListener('click', () => {
+        if (getMessages().length === 0) return;
+        if (!confirm('Supprimer TOUS les messages de contact définitivement ? Cette action est irréversible.')) return;
+        saveMessages([]);
+        renderMessages();
+    });
 
     renderUsers();
     renderTeam();
