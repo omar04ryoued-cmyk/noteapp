@@ -40,7 +40,7 @@
             <div class="auth-error" id="auth-error"></div>
 
             <!-- CONNEXION -->
-            <form class="auth-form" id="form-login">
+            <form class="auth-form" id="form-login" novalidate>
                 <div class="auth-field">
                     <label for="login-email">Email</label>
                     <input type="email" id="login-email" required autocomplete="email">
@@ -58,7 +58,7 @@
             </form>
 
             <!-- INSCRIPTION -->
-            <form class="auth-form hidden" id="form-register">
+            <form class="auth-form hidden" id="form-register" novalidate>
                 <div class="auth-field">
                     <label for="register-name">Nom complet</label>
                     <input type="text" id="register-name" required autocomplete="name">
@@ -168,14 +168,28 @@
             strengthLabel.className = result.className;
         });
 
+        function isValidEmail(email) {
+            return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim());
+        }
+
         formLogin.addEventListener('submit', async (e) => {
             e.preventDefault();
             clearError();
+
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
+
+            if (!email.trim() || !password) {
+                showError("Veuillez remplir l'email et le mot de passe.");
+                return;
+            }
+            if (!isValidEmail(email)) {
+                showError("Veuillez entrer une adresse email valide.");
+                return;
+            }
+
             try {
-                await loginUser(
-                    document.getElementById('login-email').value,
-                    document.getElementById('login-password').value
-                );
+                await loginUser(email, password);
                 window.location.href = 'app.html';
             } catch (err) {
                 showError(err.message);
@@ -185,12 +199,26 @@
         formRegister.addEventListener('submit', async (e) => {
             e.preventDefault();
             clearError();
+
+            const name = document.getElementById('register-name').value;
+            const email = document.getElementById('register-email').value;
+            const password = document.getElementById('register-password').value;
+
+            if (!name.trim() || !email.trim() || !password) {
+                showError('Veuillez remplir tous les champs.');
+                return;
+            }
+            if (!isValidEmail(email)) {
+                showError("Veuillez entrer une adresse email valide.");
+                return;
+            }
+            if (password.length < 4) {
+                showError('Le mot de passe doit contenir au moins 4 caractères.');
+                return;
+            }
+
             try {
-                await registerUser({
-                    name: document.getElementById('register-name').value,
-                    email: document.getElementById('register-email').value,
-                    password: document.getElementById('register-password').value
-                });
+                await registerUser({ name, email, password });
                 window.location.href = 'app.html';
             } catch (err) {
                 showError(err.message);
